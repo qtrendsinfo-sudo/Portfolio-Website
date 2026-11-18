@@ -1,0 +1,6 @@
+{
+  "name": "R & L Studio",
+  "description": "R & L Studio designs and builds digital products, applications and experiences for ambitious ideas.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,208 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Authenticated user profile stored by Firebase Auth UID without credentials or tokens.",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "displayName": {
+          "type": "string",
+          "maxLength": 120
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "maxLength": 254,
+          "pattern": "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$"
+        },
+        "photoURL": {
+          "type": "string",
+          "maxLength": 500
+        },
+        "provider": {
+          "type": "string",
+          "enum": ["google.com", "password"]
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["uid", "displayName", "email", "provider", "createdAt", "updatedAt"]
+    },
+    "ProjectInquiry": {
+      "title": "ProjectInquiry",
+      "description": "Validated project brief submitted from the R & L Studio contact intake form.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "minLength": 3,
+          "maxLength": 254,
+          "pattern": "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$"
+        },
+        "company": {
+          "type": "string",
+          "maxLength": 140
+        },
+        "projectType": {
+          "type": "string",
+          "enum": [
+            "Mobile Application",
+            "Web Application",
+            "SaaS Product",
+            "UI/UX Design",
+            "Digital Product",
+            "Custom Software"
+          ]
+        },
+        "budget": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 60
+        },
+        "timeline": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 60
+        },
+        "message": {
+          "type": "string",
+          "minLength": 15,
+          "maxLength": 4000
+        },
+        "status": {
+          "type": "string",
+          "enum": ["new"]
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "name",
+        "email",
+        "company",
+        "projectType",
+        "budget",
+        "timeline",
+        "message",
+        "status",
+        "createdAt"
+      ]
+    },
+    "StudioProject": {
+      "title": "StudioProject",
+      "description": "Publicly readable R & L Studio portfolio project entry editable only by verified studio administrators.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "index": {
+          "type": "string",
+          "maxLength": 16
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 140
+        },
+        "slug": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 140,
+          "pattern": "^[a-z0-9\\-]+$"
+        },
+        "subtitle": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 3000
+        },
+        "category": {
+          "type": "string",
+          "maxLength": 80
+        },
+        "technologies": {
+          "type": "array"
+        },
+        "year": {
+          "type": "string",
+          "maxLength": 16
+        },
+        "status": {
+          "type": "string",
+          "maxLength": 80
+        },
+        "featuredImage": {
+          "type": "string",
+          "maxLength": 500
+        },
+        "gallery": {
+          "type": "array"
+        },
+        "storeLinks": {
+          "type": "array"
+        },
+        "published": {
+          "type": "boolean"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "index",
+        "title",
+        "slug",
+        "description",
+        "category",
+        "technologies",
+        "year",
+        "status",
+        "featuredImage",
+        "gallery",
+        "storeLinks",
+        "published",
+        "updatedAt"
+      ]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "Private user profiles keyed by Firebase Authentication UID."
+    },
+    "/inquiries/{inquiryId}": {
+      "schema": { "$ref": "#/entities/ProjectInquiry" },
+      "description": "Write-once client project inquiry submissions; readable only by verified studio administrators."
+    },
+    "/projects/{projectId}": {
+      "schema": { "$ref": "#/entities/StudioProject" },
+      "description": "Studio portfolio case studies; published documents are publicly readable, writes restricted to verified studio administrators."
+    }
+  }
+}
